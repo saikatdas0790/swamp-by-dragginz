@@ -145,8 +145,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             let db_path = args.get(2).map(|s| s.as_str()).unwrap_or("./ledger.db");
             run_daily_balance_generation(db_path).await?;
         }
+        "db_stats" => {
+            let db_path = args.get(2).map(|s| s.as_str()).unwrap_or("./ledger.db");
+            run_db_stats(db_path).await?;
+        }
         _ => {
-            eprintln!("Unknown mode: {}. Use 'graph_data', 'analyze_patterns', 'analyze_account <hex>', 'trace_network', 'analyze_seeds', 'trace_funds', 'trace_225a2', 'filter_analysis', 'local_ledger <account_hex>', 'import_db [ledger_directory] [db_path]', 'query_db <account_hex> [db_path]', or 'daily_balances [db_path]'", mode);
+            eprintln!("Unknown mode: {}. Use 'graph_data', 'analyze_patterns', 'analyze_account <hex>', 'trace_network', 'analyze_seeds', 'trace_funds', 'trace_225a2', 'filter_analysis', 'local_ledger <account_hex>', 'import_db [ledger_directory] [db_path]', 'query_db <account_hex> [db_path]', 'daily_balances [db_path]', or 'db_stats [db_path]'", mode);
             std::process::exit(1);
         }
     }
@@ -931,4 +935,18 @@ async fn run_db_query(account_hex: &str, db_path: &str) -> Result<(), Box<dyn st
 async fn run_daily_balance_generation(db_path: &str) -> Result<(), Box<dyn std::error::Error>> {
     use crate::ledger_db::run_daily_balance_generation;
     Ok(run_daily_balance_generation(db_path).await?)
+}
+
+async fn run_db_stats(db_path: &str) -> Result<(), Box<dyn std::error::Error>> {
+    println!("===== DATABASE STATISTICS =====");
+    println!("Database path: {}", db_path);
+    
+    let db = LedgerDatabase::new(db_path)?;
+    
+    // Just get the transaction count - much faster
+    let total_txs = db.get_transaction_count()?;
+    
+    println!("\nTotal transactions in database: {}", total_txs);
+    
+    Ok(())
 }

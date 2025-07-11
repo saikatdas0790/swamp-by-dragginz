@@ -12,6 +12,7 @@ export default function Home() {
   const [data, setData] = useState<null | GraphData>(null);
   useEffect(() => {
     async function loadData() {
+      setLoading(true);
       try {
         const categories = [
           "cex",
@@ -30,7 +31,7 @@ export default function Home() {
         const mergedData: AccountData[] = results.flat();
         const graphData = buildGraph(mergedData);
         setData(graphData);
-        // await new Promise(resolve => setTimeout(resolve, 5000));
+        await new Promise(resolve => setTimeout(resolve, 2000));
       } catch (err) {
         console.error("Failed to load JSON:", err);
       } finally {
@@ -123,7 +124,7 @@ export default function Home() {
   // number of txs, start date, end date, average icp amount
   // console.log(selectedNode);
   const { width, height } = useWindowSize();
-
+  console.log(loading);
   return (
     <>
       <main>

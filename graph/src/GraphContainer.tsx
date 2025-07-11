@@ -41,7 +41,7 @@ export function GraphContainer({
       setHighlightNodeId(undefined);
     }
   };
-  if (loading) {
+  if (!!loading) {
     return (
       <div
         className="d-flex justify-content-center align-items-center"

@@ -346,6 +346,16 @@ impl LedgerDatabase {
         }))
     }
     
+    /// Get transaction count only (fast)
+    pub fn get_transaction_count(&self) -> Result<u64> {
+        let count: u64 = self.conn.query_row(
+            "SELECT COUNT(*) FROM transactions",
+            [],
+            |row| row.get(0)
+        )?;
+        Ok(count)
+    }
+    
     /// Database statistics
     pub fn get_db_stats(&self) -> Result<serde_json::Value> {
         let total_txs: u64 = self.conn.query_row(

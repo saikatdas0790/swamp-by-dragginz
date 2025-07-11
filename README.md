@@ -34,7 +34,7 @@ cd backend
 
 # Import from specific directory
 cargo run import_db C:\Users\YourName\Downloads\ledger_data .\ledger.db
-
+# WSL:  cargo run import_db /mnt/c/Users/gabri/Desktop/ic_ledger/ ./ledger.db
 # Or use default paths (current directory for JSONL files)
 cargo run import_db
 ```
@@ -81,18 +81,24 @@ cargo run daily_balances
 
 #### 3. Verify Database (Optional)
 
-Test the database by querying a specific account:
+Test the database by querying a specific account or checking database statistics:
 
 ##### Mac/Linux:
 ```bash
 # Query specific account
 cargo run query_db 014d583dffef4783812768f349f368f9c18c6c47b86911652aedb6b5cc608b1d ./ledger.db
+
+# Check database statistics (number of transactions)
+cargo run db_stats ./ledger.db
 ```
 
 ##### Windows:
 ```bash
 # Query specific account
 cargo run query_db 014d583dffef4783812768f349f368f9c18c6c47b86911652aedb6b5cc608b1d .\ledger.db
+
+# Check database statistics (number of transactions)
+cargo run db_stats .\ledger.db
 ```
 
 ### Backend Commands
@@ -122,6 +128,9 @@ cd graph
 
 # Install dependencies
 npm install
+
+# Install TypeScript definitions for d3 (required for building)
+npm install --save-dev @types/d3
 
 # Run development server
 npm run dev
@@ -159,4 +168,33 @@ dfx canister install graph --ic --mode=upgrade
 - The import process may take 10-30 minutes depending on data size
 - Daily balance generation typically takes 1-2 minutes
 - For large datasets, ensure you have at least 8GB RAM available
+
+### Build Issues
+
+#### TypeScript/d3 Error
+If you get an error like `TS7016: Could not find a declaration file for module 'd3'` when building:
+```bash
+cd graph
+npm install --save-dev @types/d3
+```
+
+### Database Queries
+- The `db_stats` command provides a quick way to check the total number of transactions
+- For large databases (millions of transactions), avoid running complex queries that scan all records
+
+## Recent Modifications
+
+### Backend Changes
+1. **Added `db_stats` command** (in `main.rs`):
+   - New command to quickly check the total number of transactions in the database
+   - Usage: `cargo run db_stats [db_path]`
+   
+2. **Added `get_transaction_count()` method** (in `ledger_db.rs`):
+   - Fast method that only counts transactions without expensive operations
+   - Used by the `db_stats` command
+
+### Frontend Changes
+1. **Added TypeScript definitions for d3**:
+   - Required for production builds
+   - Install with: `npm install --save-dev @types/d3`
 

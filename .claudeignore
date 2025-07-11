@@ -1,0 +1,11 @@
+# SQLite database files
+backend/ledger.db
+backend/ledger.db-shm
+backend/ledger.db-wal
+backend/*.db
+backend/*.db-shm
+backend/*.db-wal
+
+# Large JSON files (optional - uncomment if needed)
+# graph/public/account_transactions_*.json
+# graph/public/daily_balances.json

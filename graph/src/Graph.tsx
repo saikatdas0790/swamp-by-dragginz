@@ -178,6 +178,7 @@ const Graph: React.FC<GraphProps> = ({
           if (onLinkClick) {
             onLinkClick(d.connectors);
           }
+          
         }
 
       })
