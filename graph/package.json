@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@aws-sdk/client-opensearch": "^3.782.0",
+    "@aws-sdk/client-opensearch": "^3.1101.0",
     "@opensearch-project/opensearch": "^3.5.1",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
@@ -19,7 +19,7 @@
     "@types/react-dom": "^19.0.4",
     "aws4": "^1.13.2",
     "aws4fetch": "^1.0.20",
-    "axios": "^1.8.4",
+    "axios": "^1.18.0",
     "boostrap": "^2.0.0",
     "bootstrap": "^5.3.3",
     "crypto": "^1.0.1",
